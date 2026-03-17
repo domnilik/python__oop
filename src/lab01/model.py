@@ -1,9 +1,9 @@
-from lab01.validation import *
+from validate import *
 
 class BankAccount:
     bank_name = "Python Bank"
     total_accounts = 0
-    
+
     def __init__(self, account_number, owner_name, initial_balance=0, credit_limit=0, interest_rate=0):
         validate_account_number(account_number)
         validate_owner_name(owner_name)
@@ -71,6 +71,10 @@ class BankAccount:
     @property
     def available_funds(self):
         return self.__balance + self.__credit_limit
+    
+    @classmethod
+    def get_total_accounts(cls):
+        return cls.total_accounts
     
     def __add_transaction(self, transaction_type, amount, description):
         from datetime import datetime
@@ -160,4 +164,4 @@ class BankAccount:
     def __lt__(self, other):
         if not isinstance(other, BankAccount):
             return NotImplemented
-        return self.__balance < other.__balance 
+        return self.__balance < other.__balance
