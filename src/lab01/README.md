@@ -346,6 +346,6 @@ if __name__ == "__main__":
     print("=" * 60)
 ```
 
-![](../images/image1.png)
+![](src/images/image1.png)
 
-![](../images/image2.png)
+![](/src/images/image2.png)
