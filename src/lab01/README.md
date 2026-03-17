@@ -348,4 +348,4 @@ if __name__ == "__main__":
 
 ![](/src/images/lab01/image1.png)
 
-![](/src/images/lab01/image1.png)
+![](/src/images/lab01/image2.png)
