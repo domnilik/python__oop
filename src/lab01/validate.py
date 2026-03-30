@@ -1,36 +1,33 @@
-def validate_balance(value):
-    if not isinstance(value, (int, float)):
-        raise TypeError(f"Баланс должен быть числом")
-    if value < 0:
-        raise ValueError(f"Баланс не может быть отрицательным: {value}")
-    return float(value)
+def validate_account_number(number):
+    if not isinstance(number, str):
+        number = str(number)
+    if not number.isdigit():
+        raise ValueError(f"Критическая ошибка: Номер счета '{number}' должен содержать только цифры!")
+    if len(number) < 3:
+        raise ValueError(f"Ошибка: Номер счета {number} слишком короткий (мин. 3 символа).")
+    return number
 
-def validate_credit_limit(value):
-    if not isinstance(value, (int, float)):
-        raise TypeError(f"Кредитный лимит должен быть числом")
-    if value < 0:
-        raise ValueError(f"Кредитный лимит не может быть отрицательным: {value}")
-    return float(value)
+def validate_owner_name(name):
+    if not isinstance(name, str):
+        raise TypeError("Имя владельца должно быть строкой!")
+    clean_name = name.strip()
+    if len(clean_name) < 2:
+        raise ValueError(f"Ошибка: Имя '{clean_name}' слишком короткое!")
+    if any(char.isdigit() for char in clean_name):
+        raise ValueError(f"Ошибка: В имени '{clean_name}' обнаружены цифры!")
+    return clean_name
 
-def validate_interest_rate(value):
-    if not isinstance(value, (int, float)):
-        raise TypeError(f"Процентная ставка должна быть числом")
-    if not (0 <= value <= 100):
-        raise ValueError(f"Процентная ставка должна быть от 0 до 100, получена {value}")
-    return float(value)
+def validate_balance(balance):
+    try:
+        val = float(balance)
+    except (ValueError, TypeError):
+        raise TypeError(f"Значение '{balance}' должно быть числом!")
+    if val < 0:
+        raise ValueError(f"Нарушение ограничений: Сумма не может быть отрицательной ({val})!")
+    return val
 
-def validate_account_number(value):
-    if not isinstance(value, str):
-        raise TypeError(f"Номер счета должен быть строкой")
-    value = value.strip()
-    if not value or len(value) < 5:
-        raise ValueError("Номер счета должен содержать минимум 5 символов")
-    return value
-
-def validate_owner_name(value):
-    if not isinstance(value, str):
-        raise TypeError(f"Имя владельца должно быть строкой")
-    value = value.strip()
-    if not value or len(value) < 2:
-        raise ValueError("Имя владельца должно содержать минимум 2 символа")
-    return value
+def validate_amount(amount):
+    val = validate_balance(amount)
+    if val <= 0:
+        raise ValueError("Ошибка: Сумма операции должна быть больше нуля!")
+    return val

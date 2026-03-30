@@ -1,64 +1,59 @@
-from model import BankAccount, SavingsAccount, BusinessAccount
+from model import BankAccount
 
 def print_block(title):
     print("\n" + "=" * 60)
     print(title)
     print("=" * 60)
 
-def main():
-    print_block("СЦЕНАРИЙ 1: СОЗДАНИЕ ОБЪЕКТОВ И НАСЛЕДОВАНИЕ")
+def run_demo():
+    acc_m = BankAccount("101", "Марк", 1500.0, "Обычный")
+    acc_v = BankAccount("102", "Матвей", 1500.0, "Сберегательный")
+
+
+    print_block("СЦЕНАРИЙ 1: СОЗДАНИЕ ОБЪЕКТА И ВЫВОД")
+    print(f"Объект 1 (str): {acc_m}")
+    print(f"Объект 2 (repr): {repr(acc_v)}")
+
+
+    print_block("СЦЕНАРИЙ 2: СРАВНЕНИЕ ОБЪЕКТОВ")
+    print(f"Счета Марка и Матвея равны по балансу? {acc_m == acc_v}")
+
     
-    mark = BankAccount("ACC-001", "Марк", balance=1000.0)
-    matvey = SavingsAccount("SAV-001", "Матвей", balance=5000.0, interest_rate=10.0)
-    roman = BusinessAccount("BIZ-001", "Роман", balance=10000.0, tax_id="7701")
+    print_block("СЦЕНАРИЙ 3: ИЗМЕНЕНИЕ ДАННЫХ ЧЕРЕЗ SETTER")
+    print(f"Текущий владелец: {acc_m.owner_name}")
+    acc_m.owner_name = "Марк Аврелий"
+    print(f"Новый владелец: {acc_m.owner_name}")
 
-    print(f"Создан базовый счет: {mark}")
-    print(f"Создан сберегательный: {matvey}")
-    print(f"Создан бизнес-счет: {roman}")
+   
+    print_block("СЦЕНАРИЙ 4: ДОСТУП К АТРИБУТАМ КЛАССА")
+    print(f"Доступ через класс: {BankAccount.total_accounts}")
+    print(f"Доступ через объект: {acc_m.total_accounts}")
 
-    print_block("СЦЕНАРИЙ 2: ПОЛИМОРФИЗМ (ОБЩИЙ ИНТЕРФЕЙС)")
-    bank_database = [mark, matvey, roman]
-
-    for acc in bank_database:
-        bonus = acc.calculate_annual_bonus()
-        print(f" > Клиент: {acc.owner_name:10} | Бонус: {bonus:>8.2f} руб.")
-
-    print_block("СЦЕНАРИЙ 3: УНИКАЛЬНЫЕ МЕТОДЫ ДОЧЕРНИХ КЛАССОВ")
+   
+    print_block("СЦЕНАРИЙ 5: СОСТОЯНИЕ ОБЪЕКТА И ОГРАНИЧЕНИЯ")
+    status_now = "active" if acc_m._is_active else "closed"
+    print(f"Текущий статус: {status_now}")
     
-    print(f"Баланс Матвея до процентов: {matvey.balance}")
-    matvey.apply_interest()
-    print(f"Баланс Матвея после процентов: {matvey.balance}")
-
-    print(f"\nБаланс Романа до комиссии: {roman.balance}")
-    roman.pay_service_fee()
-    print(f"Баланс Романа после комиссии: {roman.balance}")
-
-    print_block("СЦЕНАРИЙ 4: ПРОВЕРКА ТИПОВ И ФИЛЬТРАЦИЯ (ISINSTANCE)")
-    
-    for acc in bank_database:
-        if isinstance(acc, BusinessAccount):
-            print(f" - Найден Бизнес: {acc.owner_name}, ИНН: {acc._tax_id}")
-
-    print_block("СЦЕНАРИЙ 5: ПРОВЕРКА ВАЛИДАЦИИ И ОГРАНИЧЕНИЙ")
+    acc_m.close_account()
+    status_after = "closed" if not acc_m._is_active else "active"
+    print(f"Статус после закрытия: {status_after}")
     
     try:
-        mark.deposit(-500)
+        acc_m.deposit(500)
     except ValueError as e:
-        print(f"Поймана ошибка: {e}")
+        print(f"Ошибка при пополнении: {e}")
 
+   
+    print_block("СЦЕНАРИЙ 6: ПРОВЕРКА ВАЛИДАЦИИ (TRY/EXCEPT)")
     try:
-        roman.withdraw(200000)
-    except ValueError as e:
-        print(f"Поймана ошибка: {e}")
+        print("Попытка создать счет с некорректным именем...")
+        bad_acc = BankAccount("777", "123", -10.0)
+    except (ValueError, TypeError) as e:
+        print(f"Ошибка валидации: {e}")
 
-    print_block("СЦЕНАРИЙ 6: ИСТОРИЯ ТРАНЗАКЦИЙ")
-    print(f"История для {matvey.owner_name}:")
-    for i, t in enumerate(matvey.transactions, 1):
-        print(f" {i}. {t['date']} | {t['type']:10} | {t['amount']:>8.2f} | {t['description']}")
-
-    print_block("СЦЕНАРИЙ 7: СТАТИСТИКА КЛАССА")
-    total = BankAccount.get_total_accounts()
-    print(f"Всего объектов в системе: {total}")
+    print("\n" + "=" * 60)
+    print("ТЕСТИРОВАНИЕ ЗАВЕРШЕНО")
+    print("=" * 60)
 
 if __name__ == "__main__":
-    main()
+    run_demo()
