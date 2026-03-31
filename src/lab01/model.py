@@ -22,6 +22,7 @@ class BankAccount:
         
         BankAccount.total_accounts += 1
 
+
     @property
     def balance(self):
         """Свойство для чтения баланса (инкапсуляция)"""
