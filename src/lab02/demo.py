@@ -1,10 +1,18 @@
 from model import BankAccount
 from collection import BankOffice
 
-def run_lab02_demo():
-    office = BankOffice("Главный Офис")
-    
+def print_scenario(number, title):
+    """Вспомогательная функция для красивого вывода заголовков"""
+    print(f"\n{'='*60}")
+    print(f"СЦЕНАРИЙ {number}: {title.upper()}")
+    print(f"{'='*60}")
 
+def run_lab02_demo():
+    # Инициализация офиса
+    office = BankOffice("Центральный филиал")
+    
+    # СЦЕНАРИЙ 1
+    print_scenario(1, "Создание объектов и наполнение коллекции")
     acc1 = BankAccount("101", "Марк", 5000.0, "Сберегательный")
     acc2 = BankAccount("102", "Матвей", 3000.0, "Обычный")
     acc3 = BankAccount("103", "Анна", 10000.0, "Бизнес")
@@ -12,46 +20,61 @@ def run_lab02_demo():
     office.add(acc1)
     office.add(acc2)
     office.add(acc3)
-    
-    print(f"--- Создана коллекция ---")
-    print(office)
+    print(f"Успешно создано и добавлено {len(office)} счетов.")
+    print(f"Текущее состояние: {office}")
 
-   
-    print(f"\n--- Тест защиты ---")
+    # СЦЕНАРИЙ 2
+    print_scenario(2, "Тест защиты (Дубликаты и Типы)")
     try:
-        office.add(BankAccount("101", "Дубликат", 100))
+        print("Попытка добавить счет с существующим номером 101...")
+        office.add(BankAccount("101", "Клон", 100.0))
     except ValueError as e:
-        print(f"Ошибка дубликата: {e}")
-
+        print(f"Ожидаемая ошибка: {e}")
     
-    print(f"\n--- Магические методы ---")
-    print(f"Количество счетов: {len(office)}")
+    try:
+        print("\nПопытка добавить некорректный тип данных (строку)...")
+        office.add("Не счет")
+    except TypeError as e:
+        print(f"Ожидаемая ошибка: {e}")
+
+    # СЦЕНАРИЙ 3
+    print_scenario(3, "Магические методы (__len__, __iter__)")
+    print(f"Количество элементов через len(): {len(office)}")
+    print("Перебор всей коллекции через цикл for:")
     for acc in office:
-        print(f"Счет: {acc}")
+        print(f"  -> {acc}")
 
+    # СЦЕНАРИЙ 4
+    print_scenario(4, "Поиск и индексация (__getitem__)")
+    print(f"Прямой доступ к office[0]: {office[0]}")
     
-    print(f"\n--- Поиск и индексация ---")
-    print(f"Элемент по индексу [0]: {office[0]}")
-    print(f"Поиск номера 102: {office.find_by_number('102')}")
+    search_id = "102"
+    found = office.find_by_number(search_id)
+    print(f"Результат поиска счета {search_id}: {found if found else 'Не найден'}")
 
-  
-    print(f"\n--- Сортировка по балансу (DESC) ---")
+    # СЦЕНАРИЙ 5
+    print_scenario(5, "Сортировка и фильтрация")
+    print("1. Сортировка по убыванию баланса:")
     office.sort_by_balance(reverse=True)
     for acc in office:
-        print(f"{acc.balance} руб. | {acc.owner_name}")
-
+        print(f"   {acc.balance:>8} руб. | {acc.owner_name}")
     
-    print(f"\n--- Фильтрация активных ---")
+    print("\n2. Фильтрация (создание новой коллекции активных счетов):")
+    # Закрываем один счет для теста фильтра
     office.find_by_number("103").close_account()
-    active_only = office.get_active_accounts()
-    print(f"Всего: {len(office)}, Активных: {len(active_only)}")
-    for acc in active_only:
-        print(f"Активен: {acc}")
+    
+    active_office = office.get_active_accounts()
+    print(f"Всего счетов: {len(office)}")
+    print(f"Активных счетов в НОВОЙ коллекции: {len(active_office)}")
+    for acc in active_office:
+        print(f"   [АКТИВЕН] {acc}")
 
-  
-    print(f"\n--- Удаление ---")
-    office.remove_at(0)
-    print(f"Осталось после удаления: {len(office)}")
+    # СЦЕНАРИЙ 6 (Дополнительный)
+    print_scenario(6, "Удаление элементов")
+    print(f"Удаляем первый элемент (индекс 0)...")
+    removed = office.remove_at(0)
+    print(f"Удален счет: {removed.owner_name}")
+    print(f"Итого осталось в офисе: {len(office)}")
 
 if __name__ == "__main__":
     run_lab02_demo()
