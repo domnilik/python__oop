@@ -69,7 +69,7 @@ def run_lab02_demo():
     for acc in active_office:
         print(f"   [АКТИВЕН] {acc}")
 
-    # СЦЕНАРИЙ 6 (Дополнительный)
+    # СЦЕНАРИЙ 6 
     print_scenario(6, "Удаление элементов")
     print(f"Удаляем первый элемент (индекс 0)...")
     removed = office.remove_at(0)
