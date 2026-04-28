@@ -9,7 +9,7 @@ class BankOffice:
         if not isinstance(account, BankAccount):
             raise TypeError(f"Можно добавлять только объекты BankAccount, получено: {type(account)}")
         
-        if self.find_by_number(account._account_number):
+        if self.find_by_number(account._account_number): #защита от дубликатов
             raise ValueError(f"Счет с номером {account._account_number} уже существует!")
             
         self._items.append(account)
