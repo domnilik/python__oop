@@ -6,7 +6,6 @@ class SavingsAccount(BankAccount):
     """Сберегательный счет с функцией накопления процентов."""
     
     def __init__(self, account_number: str, owner_name: str, balance: float = 0.0, interest_rate: float = 10.0):
-        # Вызов родительского конструктора - обязательное условие
         super().__init__(account_number, owner_name, balance)
         self._interest_rate = interest_rate
 
@@ -18,7 +17,6 @@ class SavingsAccount(BankAccount):
         return interest
 
     def __str__(self) -> str:
-        # Используем super() для переиспользования вывода родителя
         return f"[СБЕРЕГАТЕЛЬНЫЙ] {super().__str__()} (Ставка: {self._interest_rate}%)"
 
 
