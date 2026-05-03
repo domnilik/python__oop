@@ -3,14 +3,16 @@ from validate import validate_amount
 
 
 class SavingsAccount(BankAccount):
-    """Сберегательный счет с функцией накопления процентов."""
     
     def __init__(self, account_number: str, owner_name: str, balance: float = 0.0, interest_rate: float = 10.0):
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 1d053da9af70bec3788e5993c0e011f39bbbd151
         super().__init__(account_number, owner_name, balance)
-        self._interest_rate = interest_rate
+        self._interest_rate = interest_rate # фунцкия накопления процентов
 
     def apply_interest(self):
-        """Метод, доступный только для сберегательных счетов."""
         interest = self._balance * (self._interest_rate / 100)
         self._balance += interest
         self._add_transaction(f"Начисление % (ставка {self._interest_rate}%)", interest)
@@ -21,17 +23,13 @@ class SavingsAccount(BankAccount):
 
 
 class BusinessAccount(BankAccount):
-    """Бизнес-счет с поддержкой овердрафта (кредитного лимита)."""
     
     def __init__(self, account_number: str, owner_name: str, balance: float = 0.0, overdraft_limit: float = 1000.0):
         super().__init__(account_number, owner_name, balance)
-        self._overdraft_limit = overdraft_limit
+        self._overdraft_limit = overdraft_limit #позволяет уходить в минус в пределах лимита
 
 
     def withdraw(self, amount: float) -> float:
-        """
-        Измененная логика снятия: позволяет уходить в минус в пределах лимита.
-        """
         if not self._is_active:
             raise ValueError("Счет закрыт!")
             
@@ -50,31 +48,24 @@ class BusinessAccount(BankAccount):
 
 
 class BankOffice:
-    """Класс-контейнер для управления группой счетов разных типов."""
     
     def __init__(self, office_name: str):
         self.office_name = office_name
         self._items = []
 
     def add(self, account: BankAccount):
-        """Добавление счета в коллекцию с проверкой типа (isinstance)."""
+
         if not isinstance(account, BankAccount):
             raise TypeError("Ошибка: можно добавлять только объекты BankAccount и его наследников.")
         self._items.append(account)
 
-    def get_accounts_by_type(self, cls):
-        """
-        Метод для фильтрации (Задание на 5 баллов).
-        Принимает класс и возвращает только объекты этого класса.
-        """
+    def get_accounts_by_type(self, cls): #метод фильтрации
         return [acc for acc in self._items if isinstance(acc, cls)]
 
     def __len__(self):
-        """Позволяет использовать len(office)."""
         return len(self._items)
 
     def __iter__(self):
-        """Делает офис итерируемым (для циклов for)."""
         return iter(self._items)
 
     def __str__(self):

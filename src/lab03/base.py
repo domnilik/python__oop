@@ -28,8 +28,7 @@ class BankAccount:
         date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self._transactions.append(f"[{date}] {op_type}: {amount:.2f} руб.")
 
-    def _check_active(self):
-        """Вспомогательный метод, чтобы не дублировать if в deposit и withdraw"""
+    def _check_active(self): #метод, чтобы не дублировать if в deposit и withdraw
         if not self._is_active:
             raise ValueError("Действие отклонено: Счет закрыт!")
 
