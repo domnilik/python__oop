@@ -15,10 +15,10 @@ accounts_data = [
 for acc in accounts_data:
     office.add(acc)
 
-print("=== ИСХОДНОЕ СОСТОЯНИЕ ===")
+print("=== Исходное состояние  ===")
 print(office)
 
-print("\n=== СЦЕНАРИЙ 1: Цепочка операций ===")
+print("\n=== Сценарий 1: Цепочка операций ===")
 bonus_5 = st.InterestStrategy(bonus_percent=5.0)
 result = (office
           .filter_by(st.limit_filter(1000))
@@ -26,12 +26,12 @@ result = (office
           .apply(bonus_5))
 print(result)
 
-print("\n=== СЦЕНАРИЙ 2: Lambda и Map ===")
+print("\n=== Сценарий 2: Lambda и Map ===")
 office.sort_by(lambda x: x.balance, reverse=True)
 for summary in office.get_summaries():
     print(f"-> {summary}")
 
-print("\n=== СЦЕНАРИЙ 3: Callable-стратегия ===")
+print("\n=== Сценарий 3: Callable-стратегия ===")
 extra_bonus = st.InterestStrategy(bonus_percent=2.0)
 office.apply(extra_bonus)
 print(office)
