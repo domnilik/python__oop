@@ -32,6 +32,7 @@ class TypedCollection(Generic[T]):
                 return item
         return None
 
+
     def filter(self, predicate: Callable[[T], bool]) -> List[T]:
         return [item for item in self._items if predicate(item)]
 

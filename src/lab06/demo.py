@@ -20,8 +20,8 @@ def run_demo():
     office.add(BankAccount("Павел", 5000.0))
     office.add(BankAccount("Ольга", 2100.0))
 
-    # --- Тест find (Задание 4) ---
-    print("--- Тест find ---")
+    # --- Сценарий 1. Тест find  ---
+    print("--- Сценарий 1. Тест find ---")
     rich = office.find(lambda x: x.balance > 10000)
     if rich:
         print(f"Найден богатый клиент: {rich.owner}")
@@ -30,20 +30,20 @@ def run_demo():
     if not poor:
         print(f"Поиск (баланс > 100000): Результат None (как и ожидалось)")
 
-    # --- Тест filter (Задание 4) ---
+    # --- Тест filter  ---
     print("\n--- Тест filter ---")
     filtered = office.filter(lambda x: x.balance > 3000)
     for acc in filtered:
         print(acc.get_info())
 
-    # --- Тест map (Задание 4) ---
-    print("\n--- Тест map ---")
+    # --- Тест map ---
+    print("\n--- Сценарий 2. Тест map ---")
     names = office.map(lambda x: x.owner.upper())
     print(f"Тип результата: {type(names).__name__} содержащий {type(names[0]).__name__}")
     print(f"Список имен: {names}")
 
     # --- Тест Protocols: Сценарий 1 (Displayable) ---
-    print("\n--- Тест Protocols (Displayable) - Сценарий 1 ---")
+    print("\n--- Тест Protocols (Displayable) - Сценарий 3 ---")
     display_box: TypedCollection[Displayable] = TypedCollection()
     display_box.add(BankAccount("Дарья", 500.0))
     
@@ -51,7 +51,7 @@ def run_demo():
         print(f"Отображение через протокол: {item.get_info()}")
 
     # --- Тест Protocols: Сценарий 2 (Scorable) ---
-    print("\n--- Тест Protocols (Scorable) - Сценарий 2 ---")
+    print("\n--- Тест Protocols (Scorable) ---")
     score_box: TypedCollection[Scorable] = TypedCollection()# Демонстрация того, что один и тот же класс TypedCollection работает с разными TypeVar
     score_box.add(BankAccount("Игорь", 300.0))
     
