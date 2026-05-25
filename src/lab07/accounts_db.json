@@ -1,0 +1,20 @@
+[
+    {
+        "account_number": "858",
+        "owner_name": "Конев Вадим Андреевич",
+        "balance": 2500.0,
+        "account_type": "Обычный"
+    },
+    {
+        "account_number": "707",
+        "owner_name": "Пао Нк Роснефть",
+        "balance": 100000.0,
+        "account_type": "Бизнес"
+    },
+    {
+        "account_number": "515",
+        "owner_name": "Смирнов Богдан Андреевич",
+        "balance": 1500.0,
+        "account_type": "Сберегательный"
+    }
+]
